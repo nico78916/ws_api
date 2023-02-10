@@ -1,0 +1,32 @@
+{
+  "name": "ws_api",
+  "version": "1.0.0",
+  "description": "A way to transmit data throught event system",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nico78916/ws_api.git"
+  },
+  "keywords": [
+    "Web",
+    "Socket",
+    "WebSocket",
+    "API"
+  ],
+  "author": "nico78916",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nico78916/ws_api/issues"
+  },
+  "homepage": "https://github.com/nico78916/ws_api#readme",
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^6.0.2"
+  },
+  "dependencies": {
+    "ws": "^8.12.0"
+  }
+}
