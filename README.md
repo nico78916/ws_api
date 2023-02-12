@@ -27,8 +27,8 @@ const socket = new Client("ws://localhost:8080");
 In html :
 
 ```html
-<script src="path/to/ws_api/web.js"><script>
-<script src="Your/file"><script>
+<script src="path/to/ws_api/web.js"></script>
+<script src="Your/file"></script>
 ```
 
 In the JS file:
