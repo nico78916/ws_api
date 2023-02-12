@@ -1,5 +1,5 @@
 const {WebSocketServer,WebSocket} = require("ws");
-const DataFormater = require("./DataFormater.js");
+const Data = require("./Data.js");
 class Server extends WebSocketServer {
     /**
      * Create a new client
@@ -17,7 +17,7 @@ class Server extends WebSocketServer {
                 if(isBinary){
                     throw Error("You must use fireServer to send data");
                 }
-                const data = DataFormater.formJson(msg);
+                const data = Data.formJson(msg);
                 super.emit(data.event,client,data.type,data.data);
             });
         }) 
@@ -25,7 +25,7 @@ class Server extends WebSocketServer {
     /**
      * Attach listener to event
      * @param {string} event 
-     * @param {(client:WebSocket,data:DataFormater)=>void} listener
+     * @param {(client:WebSocket,data:Data)=>void} listener
      */
     add(event,listener){
         this.on(event,listener);
@@ -33,7 +33,7 @@ class Server extends WebSocketServer {
     /**
      * Detach listener from event
      * @param {string} event 
-     * @param {(client:WebSocket,data:DataFormater)=>void} listener
+     * @param {(client:WebSocket,data:Data)=>void} listener
      */
     remove(event,listener){
         this.off(event,listener)
@@ -45,11 +45,11 @@ class Server extends WebSocketServer {
      * @param {string} event
      */
     fireClient(client,event,data){
-        client.send(DataFormater.toJson(event,data));
+        client.send(Data.toJson(event,data));
     }
     /**
      * Trigger event for all clients
-     * @param {DataFormater} data 
+     * @param {Data} data 
      */
     fireAllClients(data){
         this.users.forEach((client,k)=>{

@@ -1,4 +1,4 @@
-class DataFormater {
+class Data {
     constructor(event,data,type = undefined){
         /**
          * @type {'json'|'string'|'buffer'|'number'}
@@ -50,7 +50,7 @@ class DataFormater {
     /**
      * 
      * @param {RawData} raw 
-     * @return {DataFormater}
+     * @return {Data}
      */
     static formJson(raw){
         /**
@@ -64,7 +64,7 @@ class DataFormater {
             case "buffer":
                 json.data = Uint8Array.from(json.data);
         }
-        return new DataFormater(json.event,json.data,json.type);
+        return new Data(json.event,json.data,json.type);
     }
 }
-module.exports = DataFormater;
+module.exports = Data;

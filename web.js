@@ -4,7 +4,7 @@ class JsonString{
     }
 }
 
-class DataFormater {
+class Data {
     constructor(event,data,type = undefined){
         /**
          * @type {'json'|'string'|'buffer'|'number'}
@@ -56,7 +56,7 @@ class DataFormater {
     /**
      * 
      * @param {RawData} raw 
-     * @return {DataFormater}
+     * @return {Data}
      */
     static formJson(raw){
         /**
@@ -70,7 +70,7 @@ class DataFormater {
             case "buffer":
                 json.data = Uint8Array.from(data.data);
         }
-        return new DataFormater(json.event,json.data,json.type);
+        return new Data(json.event,json.data,json.type);
     }
 }
 
@@ -85,14 +85,14 @@ class Client extends WebSocket {
     {
         super(address,protocols,options);
         super.onmessage = (msg) =>{
-            let data = DataFormater.formJson(msg.data)
+            let data = Data.formJson(msg.data)
             emit(data.event,data.type,data.data);
         };
     }
     /**
      * Attach listener to event
      * @param {string} event 
-     * @param {(data:DataFormater)=>void} listener 
+     * @param {(data:Data)=>void} listener 
     */
     add(event,listener){
         this.addEventListener(event,listener);
@@ -100,7 +100,7 @@ class Client extends WebSocket {
     /**
      * Detach listener from event
      * @param {string} event 
-     * @param {(data : DataFormater)=>void} listener 
+     * @param {(data : Data)=>void} listener 
     */
     remove(event,listener){
         this.removeEventListener(event,listener)
@@ -108,7 +108,7 @@ class Client extends WebSocket {
     
     /**
      * trigger the server
-     * @param {DataFormater} data
+     * @param {Data} data
     */
     fireServer(data){
         return this.send(data.toJson());

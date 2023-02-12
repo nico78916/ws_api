@@ -1,4 +1,4 @@
-const {DataFormater} = require("./DataFormater.js");
+const {Data} = require("./Data.js");
 const {WebSocket} = require("ws");
 class Client extends WebSocket {
     /**
@@ -11,14 +11,14 @@ class Client extends WebSocket {
     {
         super(address,protocols,options);
         super.onmessage = (msg) =>{
-            let data = DataFormater.formJson(msg.data)
+            let data = Data.formJson(msg.data)
             emit(data.event,data.type,data.data);
         };
     }
     /**
      * Attach listener to event
      * @param {string} event 
-     * @param {(data:DataFormater)=>void} listener 
+     * @param {(data:Data)=>void} listener 
     */
     add(event,listener){
         this.on(event,listener);
@@ -26,7 +26,7 @@ class Client extends WebSocket {
     /**
      * Detach listener from event
      * @param {string} event 
-     * @param {(data : DataFormater)=>void} listener 
+     * @param {(data : Data)=>void} listener 
     */
     remove(event,listener){
         this.off(event,listener)
@@ -34,7 +34,7 @@ class Client extends WebSocket {
     
     /**
      * trigger the server
-     * @param {DataFormater} data
+     * @param {Data} data
     */
     fireServer(data){
         return this.send(data.toJson());
