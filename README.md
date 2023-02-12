@@ -11,7 +11,6 @@ __**Only for node js**__
 ```js
 const {Server} = require("ws_api");
 const server = new Server({port : 8080});
-server.fireAllClients(new Data("event",new JsonString({"foo":"bar"})))
 ```
 
 ### Client
@@ -19,12 +18,8 @@ server.fireAllClients(new Data("event",new JsonString({"foo":"bar"})))
 #### Node js
 
 ```js
-const {Client,JsonString} = require("ws_api");
+const {Client} = require("ws_api");
 const socket = new Client("ws://localhost:8080");
-socket.fireServer("event_name",JsonString({"test" : "test"}));
-socket.fireServer("event_name","test");
-socket.fireServer("event_name",69);
-socket.fireServer("event_name",new Uint8Array(new Buffer()));
 ```
 
 #### Web
