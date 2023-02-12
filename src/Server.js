@@ -1,10 +1,9 @@
-const {WebSocketServer,ServerOptions, WebSocket} = require("ws");
-const DataFormater = require("./DataFormater");
-
+const {WebSocketServer,WebSocket} = require("ws");
+const DataFormater = require("./DataFormater.js");
 class Server extends WebSocketServer {
     /**
      * Create a new client
-     * @param {ServerOptions} [options] 
+     * @param {WebSocket.ServerOptions} [options] 
      */
     constructor(options)
     {
@@ -14,8 +13,6 @@ class Server extends WebSocketServer {
          */
         this.users = new Map();
         super.on("connection",(client,req) => {
-            console.log(req.url);
-            this.users.set("a",client);
             client.on("message",(msg,isBinary) =>{
                 if(isBinary){
                     throw Error("You must use fireServer to send data");
@@ -23,13 +20,12 @@ class Server extends WebSocketServer {
                 const data = DataFormater.formJson(msg);
                 super.emit(data.event,client,data.type,data.data);
             });
-            console.log(this.users);
         }) 
     }
     /**
      * Attach listener to event
      * @param {string} event 
-     * @param {(client:WebSocket,type:string,data:Object<string,any>|Buffer)=>void} listener 
+     * @param {(client:WebSocket,data:DataFormater)=>void} listener
      */
     add(event,listener){
         this.on(event,listener);
@@ -37,7 +33,7 @@ class Server extends WebSocketServer {
     /**
      * Detach listener from event
      * @param {string} event 
-     * @param {(client:WebSocket,type:string,data:Object<string,any>|Buffer)=>void} listener
+     * @param {(client:WebSocket,data:DataFormater)=>void} listener
      */
     remove(event,listener){
         this.off(event,listener)
@@ -46,18 +42,16 @@ class Server extends WebSocketServer {
     /**
      * Trigger event for specified client
      * @param {WebSocket} client 
-     * @param {string} event 
-     * @param {number | string | Uint8Array | JsonString} data 
+     * @param {string} event
      */
     fireClient(client,event,data){
         client.send(DataFormater.toJson(event,data));
     }
     /**
      * Trigger event for all clients
-     * @param {string} event 
-     * @param {number | string | Uint8Array | JsonString} data 
+     * @param {DataFormater} data 
      */
-    fireAllClients(event,data){
+    fireAllClients(data){
         this.users.forEach((client,k)=>{
             this.fireClient(client,event,data);
         })

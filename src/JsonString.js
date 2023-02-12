@@ -3,4 +3,4 @@ class JsonString{
         this.value = JSON.stringify(data);
     }
 }
-module.exports = JsonString
+module.exports = JsonString;
